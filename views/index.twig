@@ -3,8 +3,21 @@
 {% block body %}
 <div class="container">
     <h1 id="main-title">{{title}}</h1>
-    <p id="paragraph">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus fuga sed magni placeat harum
-        minima. At nam doloribus esse tenetur totam accusantium ipsam voluptas, hic aut saepe qui laboriosam quam.</p>
+    <p id="paragraph">Click "Show" to check all previous connections.</p>
+    <button id="display" class="btn btn-primary">Show</button>
+    <table class="mt-2 table table-striped table-inverse table-responsive">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Hostname</th>
+                <th>Protocol</th>
+                <th>Method</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+
+        </tbody>
+    </table>
 </div>
 {% endblock %}
 

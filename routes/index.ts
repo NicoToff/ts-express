@@ -15,4 +15,10 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     console.log(newVisit);
 });
 
+router.post("/api/show", async (req: Request, res: Response) => {
+    const connections = await prisma.connection.findMany({});
+    console.table(connections);
+    res.json({ connections });
+});
+
 export default router;

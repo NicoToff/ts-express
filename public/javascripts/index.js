@@ -1,25 +1,29 @@
 "use strict";
-var _a;
-const mainTitle = document.getElementById("main-title");
-const paragraph = document.getElementById("paragraph");
-const originalTitle = mainTitle.textContent;
-let switcher = false;
-const originalText = (_a = paragraph.textContent) === null || _a === void 0 ? void 0 : _a.split(" ");
-let wordCount = originalText.length;
-const myCar = "🚙";
-setInterval(() => {
-    if (wordCount === 0)
-        wordCount = originalText.length;
-    let newText = [...originalText];
-    newText[wordCount - 1] = myCar;
-    paragraph.textContent = newText.join(" ");
-    wordCount--;
-}, 1250);
-setInterval(() => {
-    if ((switcher = !switcher)) {
-        mainTitle.textContent = "TS is love!";
-    }
-    else {
-        mainTitle.textContent = originalTitle;
-    }
-}, 2000);
+const btnShow = document.getElementById("display");
+const tableBody = document.getElementById("table-body");
+btnShow.addEventListener("click", () => {
+    btnShow.setAttribute("disabled", "true");
+    const toServer = new XMLHttpRequest();
+    toServer.open("POST", "/api/show", true);
+    toServer.onreadystatechange = () => {
+        if (toServer.readyState === 4) {
+            displayTable(tableBody, JSON.parse(toServer.response).connections);
+        }
+    };
+    toServer.send();
+});
+function displayTable(tableBody, response) {
+    response.forEach(connection => {
+        const tdHostname = document.createElement("td");
+        tdHostname.textContent = connection.hostname;
+        const tdProtocol = document.createElement("td");
+        tdProtocol.textContent = connection.protocol;
+        const tdMethod = document.createElement("td");
+        tdMethod.textContent = connection.method;
+        const tdDate = document.createElement("td");
+        tdDate.textContent = new Date(connection.date).toISOString();
+        const tr = document.createElement("tr");
+        tr.append(tdHostname, tdProtocol, tdMethod, tdDate);
+        tableBody.append(tr);
+    });
+}
